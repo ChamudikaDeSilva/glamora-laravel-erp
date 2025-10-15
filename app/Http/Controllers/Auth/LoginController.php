@@ -3,38 +3,46 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
+use App\Services\AuthService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+
 class LoginController extends Controller
 {
-    public function login(Request $request)
+    protected AuthService $authService;
+
+    public function __construct(AuthService $authService)
     {
-        $credentials= $request->validated([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        $this->authService= $authService;
+    }
 
-        $user = User::where('email', $credentials['email'])->first();
+    public function login(LoginRequest $request):JsonResponse
+    {
+        $credentials =$request->validated();
 
-        if($user && Hash::check($credentials['password'], $user->password))
+        $user = $this->authService->login($credentials);
+
+        if(!$user)
         {
-            Auth::login($user);
-            return response()->json(['message' => 'Login successful'], 200);
+            return response()->json(['message'=>'Invalid Credentials'],401);
         }
-        else{
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
+
+        return response()->json([
+            'message'=>'Login Successful',
+            'user'=>$user
+        ]);
     }
 
-    public function logout(Request $request)
+    public function logout():JsonResponse
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return response()->json(['message' => 'Logout successful'], 200);
+        $this->authService->logout();
+        return response()->json(['message'=>'Logout successful'],200);
     }
+
+
 }
