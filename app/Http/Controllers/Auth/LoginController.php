@@ -44,5 +44,16 @@ class LoginController extends Controller
         return response()->json(['message'=>'Logout successful'],200);
     }
 
+    public function getAuthenticatedUser(): JsonResponse
+    {
+        $user = $this->authService->getAuthenticatedUser();
+
+        if(!$user)
+        {
+            return response()->json(['message'=>'No authenticated user'],401);
+        }
+        return response()->json(['user'=>$user],200);
+    }
+
 
 }

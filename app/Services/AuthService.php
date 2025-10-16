@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use App\Models\User;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,5 +33,10 @@ class AuthService
     public function logout():void
     {
         Auth::logout();
+    }
+
+    public function getAuthenticatedUser(): ?User
+    {
+        return Auth::user();
     }
 }
