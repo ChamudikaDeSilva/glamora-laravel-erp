@@ -21,38 +21,61 @@ class LoginController extends Controller
         $this->authService= $authService;
     }
 
-    public function login(LoginRequest $request):JsonResponse
+//   public function register(RegisterRequest $request): JsonResponse
+//     {
+//         $data = $request->validated();
+//         $result = $this->authService->register($data);
+
+//         return response()->json([
+//             'message' => 'User registered successfully',
+//             'user' => $result['user'],
+//             'token' => $result['token']
+//         ], 201);
+//     }
+
+    public function login(LoginRequest $request): JsonResponse
     {
-        $credentials =$request->validated();
+        $credentials = $request->validated();
 
-        $user = $this->authService->login($credentials);
+        $result = $this->authService->login($credentials);
 
-        if(!$user)
-        {
-            return response()->json(['message'=>'Invalid Credentials'],401);
+        if (!$result) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
         return response()->json([
-            'message'=>'Login Successful',
-            'user'=>$user
+            'message' => 'Login successful',
+            'user' => $result['user'],
+            'token' => $result['token'],
         ]);
     }
 
-    public function logout():JsonResponse
-    {
-        $this->authService->logout();
-        return response()->json(['message'=>'Logout successful'],200);
-    }
-
-    public function getAuthenticatedUser(): JsonResponse
+    public function me(): JsonResponse
     {
         $user = $this->authService->getAuthenticatedUser();
 
-        if(!$user)
-        {
-            return response()->json(['message'=>'No authenticated user'],401);
+        if (!$user) {
+            return response()->json(['message' => 'Unauthenticated'], 401);
         }
-        return response()->json(['user'=>$user],200);
+
+        return response()->json(['user' => $user]);
+    }
+
+    public function logout(): JsonResponse
+    {
+        $this->authService->logout();
+        return response()->json(['message' => 'Logout successful'], 200);
+    }
+
+    public function refresh(): JsonResponse
+    {
+        $token = $this->authService->refreshToken();
+
+        if (!$token) {
+            return response()->json(['message' => 'Token refresh failed'], 401);
+        }
+
+        return response()->json(['token' => $token]);
     }
 
 
