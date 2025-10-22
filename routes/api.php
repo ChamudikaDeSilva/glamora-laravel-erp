@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,12 +14,11 @@ Route::get('/user', function (Request $request) {
 
     Route::post('register', [LoginController::class, 'register']);
     Route::post('login', [LoginController::class, 'login']);
-    // Route::middleware('auth:api')->group(function () {
-    //     Route::get('me', [LoginController::class, 'me']);
-    //     Route::post('logout', [LoginController::class, 'logout']);
-    //     Route::post('refresh', [LoginController::class, 'refresh']);
-    // });
-    Route::get('me', [LoginController::class, 'me']);
-         Route::post('logout', [LoginController::class, 'logout']);
-         Route::post('refresh', [LoginController::class, 'refresh']);
+    Route::middleware('auth:api')->group(function () {
+        Route::get('me', [LoginController::class, 'me']);
+        Route::post('logout', [LoginController::class, 'logout']);
+        Route::post('refresh', [LoginController::class, 'refresh']);
+        Route::apiResource('categories', CategoryController::class);
+    });
+
 
