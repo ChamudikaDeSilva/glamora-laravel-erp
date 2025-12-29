@@ -23,6 +23,11 @@ class BaseService
         return $this->repository->find($id);
     }
 
+    public function edit(int $id)
+    {
+        return $this->repository->edit($id);
+    }
+
     public function create(array $data)
     {
         return $this->repository->create($data);

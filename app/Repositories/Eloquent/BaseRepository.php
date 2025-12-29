@@ -39,4 +39,8 @@ class BaseRepository implements BaseRepositoryInterface
         $record = $this->find($id);
         return $record->delete();
     }
+    public function edit(int $id)
+    {
+        return $this->find($id);
+    }   
 }

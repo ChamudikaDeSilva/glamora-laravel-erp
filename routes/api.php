@@ -19,6 +19,7 @@ Route::get('/user', function (Request $request) {
         Route::get('me', [LoginController::class, 'me']);
         Route::post('logout', [LoginController::class, 'logout']);
         Route::post('refresh', [LoginController::class, 'refresh']);
+        Route::post('edit', [CategoryController::class, 'edit']);
         Route::apiResource('categories', CategoryController::class);
     });
 

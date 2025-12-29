@@ -25,6 +25,12 @@ class BaseController extends Controller
         return response()->json($data);
     }
 
+    public function edit($id)
+    {
+        $data = $this->service->getById($id);
+        return response()->json($data);
+    }
+
     public function store(Request $request)
     {
         $data = $request->all();
