@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ColorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,7 @@ Route::get('/user', function (Request $request) {
         //Route::post('edit', [CategoryController::class, 'edit']);
         Route::apiResource('categories', CategoryController::class);
         Route::apiResource('brands', BrandController::class);
+        Route::apiResource('colors', ColorController::class);
     });
 
 
