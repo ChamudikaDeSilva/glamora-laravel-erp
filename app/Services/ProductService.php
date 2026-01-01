@@ -1,16 +1,16 @@
 <?php
 namespace App\Services;
 
-use App\Repositories\Contracts\CategoryRepositoryInterface;
+use App\Repositories\Contracts\ProductRepositoryInterface;
 
-class CategoryService extends BaseService
+class ProductService extends BaseService
 {
-    public function __construct(CategoryRepositoryInterface $repository)
+    public function __construct(ProductRepositoryInterface $repository)
     {
         parent::__construct($repository);
     }
 
-    public function create(array $data)
+    public function create (array $data)
     {
         if(isset($data['is_active']))
         {
@@ -19,5 +19,5 @@ class CategoryService extends BaseService
         return parent::create($data);
     }
 
-
+   
 }
