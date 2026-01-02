@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('brand_id');
             $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('color_id');
             $table->string('name');
             $table->text('description')->nullable();
             $table->double('product_price', 8, 2);
@@ -25,6 +26,7 @@ return new class extends Migration
 
             $table->foreign('brand_id')->references('id')->on('brands');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('color_id')->references('id')->on('colors');
         });
     }
 
