@@ -11,4 +11,11 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     {
         parent::__construct($model);
     }
+
+    public function searchProducts(string $query)
+    {
+        return $this->model->where('name', 'LIKE', "%$query%")
+                           ->orWhere('description', 'LIKE', "%$query%")
+                           ->get();
+    }
 }
